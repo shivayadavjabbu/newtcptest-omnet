@@ -1,0 +1,144 @@
+file 1088400 1671024588                                         
+version 3
+run BurstyTraffic-0-20221214-13:28:01-99312
+attr configname BurstyTraffic
+attr datetime 20221214-13:28:01
+attr datetimef 20221214-132801
+attr experiment BurstyTraffic
+attr inifile omnetpp.ini
+attr iterationvars "$switchServiceTimeFactor=1, $controllerServiceTimeFactor=1"
+attr iterationvarsd switchServiceTimeFactor=1/controllerServiceTimeFactor=1
+attr iterationvarsf switchServiceTimeFactor=1,controllerServiceTimeFactor=1-
+attr measurement "$switchServiceTimeFactor=1, $controllerServiceTimeFactor=1"
+attr network Network
+attr processid 99312
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+itervar controllerServiceTimeFactor 1
+itervar switchServiceTimeFactor 1
+config image-path ../../inet/images:../../openflow/images
+config **.server*.app[0].typename UdpApp
+config **.server*.app[0].io.localPort 1000
+config **.server*.app[0].io.destAddress "\"client1\""
+config **.server*.app[0].io.destPort 1000
+config **.server*.app[0].source.typename BurstyPacketProducer
+config **.server*.app[0].source.normalProducer.productionInterval 1s
+config **.server*.app[0].source.normalProducer.packetLength 10000B
+config **.server*.app[0].source.burstProducer.productionInterval 0.1s
+config **.server*.app[0].source.burstProducer.packetLength 1000B
+config **.server*.app[0].source.scheduler.waitIntervals "\"40 4\""
+config **.server*.app[0].source.scheduler.transitionProbabilities "\"0 1 1 0\""
+config **.open_flow_switch*.OF_Switch.connectAddress "\"open_flow_controller1\""
+config **.open_flow_switch*.OF_Switch.connectAt uniform(0s,1s)
+config **.open_flow_switch*.etherMAC[*].mac.promiscuous true
+config **.OF_Switch.bufferCapacity 100
+config **.OF_Switch.serviceTime "0.000035s * (1)"
+config **.open_flow_controller*.serviceTime "0.000005556s *(1)"
+config **.open_flow_controller*.numControllerApps 3
+config **.open_flow_controller*.controllerApps[0].typename LLDPForwarding
+config **.open_flow_controller*.controllerApps[0].flowModIdleTimeOut 5
+config **.open_flow_controller*.controllerApps[0].ignoreArpRequests true
+config **.open_flow_controller*.controllerApps[1].typename LLDPAgent
+config **.open_flow_controller*.controllerApps[1].flowModIdleTimeOut 140
+config **.open_flow_controller*.controllerApps[2].typename ARPResponder
+config **.ppp[*].queue.packetCapacity 10
+config **.open_flow_switch*.tcp.mss 800
+config **.arp.cacheTimeout 60s
+config *.configurator.config "xmldoc(\"ipv4config.xml\")"
+config network Network
+config output-vector-file results/omnetpp.ini/omnetpp.ini-0.vec
+config output-scalar-file results/omnetpp.ini/omnetpp.ini-0.sca
+config sim-time-limit 100s
+config repeat 1
+config seed-set 0
+config **.rtt.result-recording-modes +vector,-stats
+config **.queueSize.result-recording-modes +vector,+stats
+config **.bufferSize.result-recording-modes +vector,+stats
+config **.waitingTime.result-recording-modes +vector,+stats
+config **.packets.result-recording-modes +count
+config **.packetBytes.result-recording-modes +sum
+config **.packets*.scalar-recording true
+config **.packetBytes*.scalar-recording true
+config **.droppedDataRate.result-recording-modes default,all
+config **.numPacketIn*.scalar-recording true
+config **.bufferSize*.vector-recording true
+config **.queueSize*.vector-recording true
+config **.waitingTime*.vector-recording true
+config **.flowTable**.scalar-recording true
+config **.pingApp[*].rtt*.vector-recording true
+config **.controllerApps[*].*.scalar-recording true
+config **.pingApp[*].numLost*.scalar-recording true
+config **.pingApp[*].numOutOfOrderArrivals*.scalar-recording true
+config **.vector-recording false
+config **.scalar-recording false
+config **.spanningTree.startNode 4
+config **.highlightActivePorts true
+config **.client*.numApps 1
+config **.server*.numApps 1
+config **.client*.app[0].typename UdpApp
+config **.client*.app[0].io.localPort 1000
+config **.client*.app[0].io.destAddress "\"server1\""
+config **.client*.app[0].io.destPort 1000
+config **.client*.app[0].source.productionInterval 1s
+config **.client*.app[0].source.packetLength "intuniform(10000B, 20000B)"
+config **.client*.app[0].source.packetData "intuniform(0, 1)"
+
+vector 0 Network.open_flow_switch1.OF_Switch queueSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title QueueSize
+vector 1 Network.open_flow_switch1.OF_Switch bufferSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title BufferSize
+vector 2 Network.open_flow_switch2.OF_Switch queueSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title QueueSize
+vector 3 Network.open_flow_switch2.OF_Switch bufferSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title BufferSize
+vector 4 Network.open_flow_switch3.OF_Switch queueSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title QueueSize
+vector 5 Network.open_flow_switch3.OF_Switch bufferSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title BufferSize
+vector 6 Network.open_flow_switch1.OF_Switch waitingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title WaitingTime
+vector 7 Network.open_flow_switch2.OF_Switch waitingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title WaitingTime
+vector 8 Network.open_flow_switch3.OF_Switch waitingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title WaitingTime
+vector 9 Network.open_flow_controller1.OF_Controller queueSize:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title QueueSize
+vector 10 Network.open_flow_controller1.OF_Controller waitingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr title WaitingTime
+0	5729 137869 73 210537 0.00000676 99.00162476 6029 0 29 73286 1189008
+1	143598 134172 73 210537 0.00000676 99.00162476 6029 0 4 17790 53250
+2	277770 47974 78 210510 0.00000676 99.00158732 2166 0 1 91 91
+3	325744 47974 78 210510 0.00000676 99.00158732 2166 0 2 1172 1242
+4	373718 142461 79 211103 0.00000676 99.00654864 6409 0 2 268 274
+5	516179 142461 79 211103 0.00000676 99.00654864 6409 0 2 35 37
+6	658640 184746 80 210640 0.00004176 99.00222308 6029 0 0.00098764 2.495608548 0.0013891798929443
+7	843386 48642 81 210533 0.00004176 99.00162232 2166 0 3.424e-05 0.00153128 3.50152512e-08
+8	892028 144290 82 211104 0.00004176 99.00658364 6409 0 5.704e-05 0.004652864 1.07428871552e-07
+9	1036318 24729 179 210468 0.548881422304 99.0015642 1124 0 1 4 4
+10	1061047 27352 181 210472 0.548886978304 99.001569756 1124 0 5.556e-06 1.7908e-05 8.7189872e-11
+
